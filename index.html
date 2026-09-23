@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sift Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="device">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-icons">
+                <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0"  y="8"   width="3" height="4"  rx="1"/>
+                    <rect x="5"  y="6"   width="3" height="6"  rx="1"/>
+                    <rect x="10" y="4"   width="3" height="8"  rx="1"/>
+                    <rect x="15" y="2"   width="3" height="10" rx="1"/>
+                </svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 11.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4z"/>
+                    <path d="M4.5 6.5a5 5 0 0 1 7 0l-1 1a3.5 3.5 0 0 0-5 0l-1-1z"/>
+                    <path d="M2 4a8.2 8.2 0 0 1 12 0l-1 1a6.7 6.7 0 0 0-10 0L2 4z"/>
+                </svg>
+                <svg width="26" height="13" viewBox="0 0 26 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5" y="0.5" width="22" height="12" rx="3.5" stroke="currentColor" opacity="0.4"/>
+                    <rect x="2" y="2" width="19" height="9" rx="2" fill="currentColor"/>
+                    <path d="M24 4.5v4a2 2 0 0 0 0-4z" fill="currentColor" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- ================= LOGIN SCREEN ================= -->
+        <div id="screen-login" class="screen screen-login active">
+            <div class="login-brand">
+                <div class="login-logo">🍃</div>
+                <h1 class="login-title">Welcome back</h1>
+                <p class="login-sub">Sign in to keep your scans safe</p>
+            </div>
+
+            <div class="login-card">
+                <label class="login-field">
+                    <span class="login-label">Email</span>
+                    <input
+                        type="email"
+                        class="login-input"
+                        id="login-email"
+                        name="sift-user-email"
+                        placeholder="you@example.com"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <span class="error-message" id="login-email-error"></span>
+                </label>
+
+                <label class="login-field">
+                    <span class="login-label">Password</span>
+                    <input
+                        type="password"
+                        class="login-input"
+                        id="login-password"
+                        name="sift-user-password"
+                        placeholder="••••••••"
+                        autocomplete="new-password"
+                        readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <span class="error-message" id="login-password-error"></span>
+                </label>
+
+                <div class="login-row">
+                    <label class="login-check">
+                        <input type="checkbox" checked>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="login-link" onclick="openForgotModal(); return false;">Forgot?</a>
+                </div>
+
+                <button class="btn-primary login-btn" onclick="doLogin()">Sign in</button>
+            </div>
+
+            <p class="login-footer">
+                Don't have an account?
+                <a href="#" class="login-link" onclick="showScreen('screen-signup'); return false;">Sign up</a>
+            </p>
+        </div>
+
+        <!-- ================= SIGNUP SCREEN ================= -->
+        <div id="screen-signup" class="screen screen-login">
+            <div class="login-brand">
+                <div class="login-logo">🍃</div>
+                <h1 class="login-title">Create account</h1>
+                <p class="login-sub">Start scanning smarter today</p>
+            </div>
+
+            <div class="login-card">
+                <label class="login-field">
+                    <span class="login-label">Email</span>
+                    <input
+                        type="email"
+                        class="login-input"
+                        id="signup-email"
+                        name="sift-signup-email"
+                        placeholder="you@example.com"
+                        autocomplete="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <span class="error-message" id="signup-email-error"></span>
+                </label>
+
+                <label class="login-field">
+                    <span class="login-label">Password</span>
+                    <input
+                        type="password"
+                        class="login-input"
+                        id="signup-password"
+                        name="sift-signup-password"
+                        placeholder="At least 6 characters"
+                        autocomplete="new-password"
+                        readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <span class="error-message" id="signup-password-error"></span>
+                </label>
+
+                <label class="login-field">
+                    <span class="login-label">Confirm password</span>
+                    <input
+                        type="password"
+                        class="login-input"
+                        id="signup-confirm"
+                        name="sift-signup-confirm"
+                        placeholder="Re-enter your password"
+                        autocomplete="new-password"
+                        readonly
+                        onfocus="this.removeAttribute('readonly')">
+                    <span class="error-message" id="signup-confirm-error"></span>
+                </label>
+
+                <button class="btn-primary login-btn" onclick="doSignup()" style="margin-top: 10px;">Create account</button>
+            </div>
+
+            <p class="login-footer">
+                Already have an account?
+                <a href="#" class="login-link" onclick="showScreen('screen-login'); return false;">Sign in</a>
+            </p>
+        </div>
+
+        <!-- ================= HOME ================= -->
+        <div id="screen-home" class="screen">
+            <header class="app-header">
+                <div class="logo">
+                    <span class="logo-icon">🍃</span>
+                    <span class="logo-text">Sift</span>
+                </div>
+                <div class="notification-bell" onclick="openInbox()">🔔</div>
+            </header>
+
+            <div class="greeting">
+                <h1>Hi, Anis</h1>
+                <p>Here's what's safe for you today</p>
+            </div>
+
+            <div class="tags-container">
+                <span class="tag dark">● Peanuts</span>
+                <span class="tag dark">● Dairy</span>
+                <span class="tag dark">● Shellfish</span>
+                <span class="tag outline" onclick="showScreen('screen-profile')">+ Manage</span>
+            </div>
+
+            <div class="action-cards">
+                <div class="card green-card" onclick="showScreen('screen-scan')">
+                    <span class="card-icon">📸</span>
+                    <h3>Scan a product</h3>
+                </div>
+                <div class="card yellow-card" onclick="showScreen('screen-places')">
+                    <span class="card-icon">📍</span>
+                    <h3>Find a safe spot</h3>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>Cleared this week</h2>
+                <a href="#" onclick="showScreen('screen-places'); return false;">See all</a>
+            </div>
+
+            <div class="list-container">
+                <div class="list-item">
+                    <div class="item-img img-cream"></div>
+                    <div class="item-info">
+                        <h4>Oat Milk Original</h4>
+                        <p>Sift • scanned Tuesday</p>
+                    </div>
+                    <span class="badge safe">Safe</span>
+                </div>
+                <div class="list-item">
+                    <div class="item-img img-cream"></div>
+                    <div class="item-info">
+                        <h4>Sourdough Loaf</h4>
+                        <p>Grainhouse Bakery</p>
+                    </div>
+                    <span class="badge safe">Safe</span>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>Nearby, allergy-friendly</h2>
+                <a href="#" onclick="showScreen('screen-places'); return false;">See all</a>
+            </div>
+
+            <div class="list-container">
+                <div class="list-item">
+                    <div class="item-img img-green"></div>
+                    <div class="item-info">
+                        <h4>Leaf & Ladle</h4>
+                        <p>0.4 mi • dedicated peanut-free kitchen</p>
+                    </div>
+                    <span class="badge safe">Safe</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SCAN ================= -->
+        <div id="screen-scan" class="screen">
+            <header class="app-header">
+                <h1>Scan a product</h1>
+                <div class="close-btn" onclick="showScreen('screen-home')">✕</div>
+            </header>
+            <p class="subtitle">Point your camera at the barcode or ingredient label.</p>
+
+            <div class="scanner-view">
+                <div class="scan-frame">
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+                    <div class="scan-line"></div>
+                </div>
+                <p class="text-scan">Checking against your profile:<br>Peanuts • Dairy • Shellfish</p>
+            </div>
+
+            <button class="btn-primary" onclick="simulateScan()">Simulate scan result</button>
+        </div>
+
+        <!-- ================= RECIPES ================= -->
+        <div id="screen-recipes" class="screen">
+            <header class="app-header">
+                <h1>Recipes for you</h1>
+                <div class="profile-icon" onclick="openSearch()">🔍</div>
+            </header>
+
+            <div class="tags-container" style="margin-bottom: 15px;">
+                <span class="tag dark">All safe</span>
+                <span class="tag outline">Under 20 min</span>
+                <span class="tag outline">Dairy-free</span>
+                <span class="tag outline">Nut-free</span>
+            </div>
+
+            <div class="recipe-list"></div>
+        </div>
+
+        <!-- ================= PLACES ================= -->
+        <div id="screen-places" class="screen">
+            <header class="app-header">
+                <h1>Safe places nearby</h1>
+                <div class="profile-icon" onclick="openSearch()">🔍</div>
+            </header>
+
+            <div class="map-view">
+                <div class="pin pin1">📍</div>
+                <div class="pin pin2">📍</div>
+                <div class="pin pin3">📍</div>
+            </div>
+
+            <div class="list-container">
+                <div class="list-item">
+                    <div class="item-img img-green"></div>
+                    <div class="item-info">
+                        <h4>Leaf & Ladle</h4>
+                        <p>Cafe • dedicated peanut-free kitchen<br>0.4 mi away</p>
+                    </div>
+                    <span class="badge safe">High match</span>
+                </div>
+                <div class="list-item">
+                    <div class="item-img img-yellow"></div>
+                    <div class="item-info">
+                        <h4>Grainhouse Bakery</h4>
+                        <p>Bakery • gluten & dairy-free menu<br>0.7 mi away</p>
+                    </div>
+                    <span class="badge safe">High match</span>
+                </div>
+                <div class="list-item">
+                    <div class="item-img img-orange"></div>
+                    <div class="item-info">
+                        <h4>Harbor Kitchen</h4>
+                        <p>Seafood • shellfish handled on-site<br>1.1 mi away</p>
+                    </div>
+                    <span class="badge warn">Ask staff</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PROFILE ================= -->
+        <div id="screen-profile" class="screen">
+            <header class="app-header">
+                <h1>Your allergies</h1>
+                <div class="profile-icon" onclick="openSettings()">⚙️</div>
+            </header>
+
+            <p class="subtitle">Sift checks every scan, recipe and place against this list.</p>
+
+            <div class="allergy-list">
+                <div class="allergy-item" style="cursor: pointer;"
+                     onclick="openDeleteAllergy('Peanuts', this)">
+                    <div class="allergy-icon">🥜</div>
+                    <div class="allergy-info">
+                        <h4>Peanuts</h4>
+                        <p class="severity high">● Severe</p>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+
+                <div class="allergy-item" style="cursor: pointer;"
+                     onclick="openDeleteAllergy('Dairy', this)">
+                    <div class="allergy-icon">🥛</div>
+                    <div class="allergy-info">
+                        <h4>Dairy</h4>
+                        <p class="severity med">● Moderate</p>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+
+                <div class="allergy-item" style="cursor: pointer;"
+                     onclick="openDeleteAllergy('Shellfish', this)">
+                    <div class="allergy-icon">🦐</div>
+                    <div class="allergy-info">
+                        <h4>Shellfish</h4>
+                        <p class="severity high">● Severe</p>
+                    </div>
+                    <div class="arrow">›</div>
+                </div>
+            </div>
+
+            <button class="btn-outline" onclick="openModal('modal-add-allergy')">+ Add an allergy</button>
+            <button class="btn-outline signout-btn" onclick="doLogout()">Sign out</button>
+        </div>
+
+        <!-- ================= MODALS ================= -->
+
+        <!-- Add allergy -->
+        <div id="modal-add-allergy" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add an allergy</h2>
+                    <div class="close-btn" onclick="closeModal('modal-add-allergy')">✕</div>
+                </div>
+                <p class="subtitle">Type your allergy or choose from the list below.</p>
+
+                <div class="custom-input-container">
+                    <input type="text" id="custom-allergy-input" class="search-input" placeholder="e.g. Mustard, Sulfites..." onkeypress="handleCustomAllergyKey(event)">
+                    <button class="btn-primary" onclick="addCustomAllergy()" style="margin-top: 10px; padding: 12px;">Add Custom Allergy</button>
+                </div>
+
+                <div class="divider">OR QUICK SELECT</div>
+
+                <div class="allergy-options">
+                    <div class="allergy-option" onclick="addAllergy('Soy')">🌱 Soy</div>
+                    <div class="allergy-option" onclick="addAllergy('Eggs')">🥚 Eggs</div>
+                    <div class="allergy-option" onclick="addAllergy('Gluten')">🌾 Gluten</div>
+                    <div class="allergy-option" onclick="addAllergy('Tree Nuts')">🌰 Tree Nuts</div>
+                    <div class="allergy-option" onclick="addAllergy('Fish')">🐟 Fish</div>
+                    <div class="allergy-option" onclick="addAllergy('Sesame')">🫘 Sesame</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete allergy confirmation -->
+        <div id="modal-delete-allergy" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Remove allergy</h2>
+                    <div class="close-btn" onclick="closeModal('modal-delete-allergy')">✕</div>
+                </div>
+
+                <p class="subtitle">
+                    Remove <strong id="delete-allergy-name">this allergy</strong> from your profile?
+                    Sift will stop checking products, recipes, and places against it.
+                </p>
+
+                <div style="display:flex; gap:10px; margin-top: 10px;">
+                    <button class="btn-outline" style="margin-top: 0; flex:1; border-color: #D9534F; color: #D9534F;"
+                            onclick="confirmDeleteAllergy()">
+                        Delete
+                    </button>
+                    <button class="btn-primary" style="margin-top: 0; flex:1;"
+                            onclick="closeModal('modal-delete-allergy')">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div id="modal-search" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Search</h2>
+                    <div class="close-btn" onclick="closeModal('modal-search')">✕</div>
+                </div>
+                <input type="text" class="search-input" placeholder="Search recipes, places, products..." oninput="handleSearch(this.value)">
+                <div id="search-results" class="search-results">
+                    <p class="subtitle">Start typing to see results...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forgot password -->
+        <div id="modal-forgot" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Reset Password</h2>
+                    <div class="close-btn" onclick="closeModal('modal-forgot')">✕</div>
+                </div>
+                <p class="subtitle">Enter your email and we'll send you a link to reset your password.</p>
+                <input type="email" id="forgot-email" class="search-input" placeholder="you@example.com">
+                <span class="error-message" id="forgot-email-error"></span>
+                <button class="btn-primary" onclick="doForgotPassword()">Send Reset Link</button>
+            </div>
+        </div>
+
+        <!-- Inbox -->
+        <div id="modal-inbox" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Inbox</h2>
+                    <div class="close-btn" onclick="closeModal('modal-inbox')">✕</div>
+                </div>
+                <div id="inbox-list"></div>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div id="modal-settings" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <div class="close-btn" onclick="closeModal('modal-settings')">✕</div>
+                </div>
+
+                <p class="subtitle">Preferences for your Sift account.</p>
+
+                <div class="settings-list">
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Dark Mode</h4>
+                            <p>Easier on the eyes at night</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-darkmode" onchange="toggleDarkMode(this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Notifications</h4>
+                            <p>Alerts when a scan finishes</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-notifications" checked onchange="saveSetting('notifications', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Push reminders</h4>
+                            <p>Weekly allergy-safety tips</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-push" onchange="saveSetting('push', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Haptic feedback</h4>
+                            <p>Vibrate on scan results</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-haptics" checked onchange="saveSetting('haptics', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="divider">DANGER ZONE</div>
+
+                <button class="btn-outline" style="border-color: #D9534F; color: #D9534F; margin-top: 0;" onclick="clearAllData()">
+                    🗑️ Clear all app data
+                </button>
+
+                <div class="divider">ABOUT</div>
+
+                <div class="about-row">
+                    <span>Sift</span>
+                    <span style="color: var(--text-muted);">v1.0.0</span>
+                </div>
+                <div class="about-row">
+                    <span>Build</span>
+                    <span style="color: var(--text-muted);">2025.01.14</span>
+                </div>
+
+                <p class="subtitle" style="margin-top: 20px; font-size: 12px; text-align: center;">
+                    Made with 💚 for allergy-safe living
+                </p>
+            </div>
+        </div>
+
+        <!-- ================= BOTTOM NAVIGATION ================= -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="showScreen('screen-home', this)">
+                <span class="nav-icon">🏠</span>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('screen-scan', this)">
+                <span class="nav-icon">📷</span>
+                <span>Scan</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('screen-recipes', this)">
+                <span class="nav-icon">🍽️</span>
+                <span>Recipes</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('screen-places', this)">
+                <span class="nav-icon">📍</span>
+                <span>Places</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('screen-profile', this)">
+                <span class="nav-icon">👤</span>
+                <span>Profile</span>
+            </div>
+        </nav>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
